@@ -1,0 +1,6 @@
+{
+  "name": "Global AI Policy Trends",
+  "description": "Enterprise-level AI-powered platform for analyzing, comparing, forecasting, and visualizing global AI governance policies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
