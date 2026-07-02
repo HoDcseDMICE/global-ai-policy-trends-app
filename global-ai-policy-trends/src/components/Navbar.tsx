@@ -256,7 +256,7 @@ export default function Navbar() {
 
               <AnimatePresence>
                 {isNotificationsOpen && (
-                  <div className="absolute right-0 mt-2 w-80 rounded-2xl glass-card border border-white/10 p-3 shadow-2xl z-50 glow-indigo">
+                  <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#0B1121]/95 backdrop-blur-2xl border border-white/10 p-3 shadow-2xl z-50 glow-indigo">
                     <div className="flex items-center justify-between pb-2 border-b border-white/5 mb-2">
                       <span className="text-xs font-semibold text-white">Notifications</span>
                       <button 
