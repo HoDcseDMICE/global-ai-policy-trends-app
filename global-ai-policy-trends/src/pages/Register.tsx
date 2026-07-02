@@ -24,35 +24,16 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // 1. Register User
-      const regResponse = await fetch('http://localhost:8000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+      // Mock backend response for frontend demo
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      const regData = await regResponse.json();
-
-      if (!regResponse.ok) {
-        throw new Error(regData.detail || 'Registration failed');
-      }
-
-      // 2. Auto Login after registration
-      const loginResponse = await fetch('http://localhost:8000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const loginData = await loginResponse.json();
+      const mockUser = { 
+        username: username || 'User', 
+        role: (username || '').toLowerCase().includes('admin') ? 'admin' : 'user' 
+      };
       
-      if (loginResponse.ok) {
-        login(loginData.user, loginData.token);
-        navigate('/');
-      } else {
-        navigate('/login');
-      }
-
+      login(mockUser, 'mock-token-123456');
+      navigate('/');
     } catch (err: any) {
       setError(err.message || 'An error occurred during registration.');
     } finally {

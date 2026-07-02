@@ -18,19 +18,15 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+      // Mock backend response for frontend demo
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.detail || 'Login failed');
-      }
-
-      login(data.user, data.token);
+      const mockUser = { 
+        username: username || 'User', 
+        role: (username || '').toLowerCase().includes('admin') ? 'admin' : 'user' 
+      };
+      
+      login(mockUser, 'mock-token-123456');
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'An error occurred during login.');
