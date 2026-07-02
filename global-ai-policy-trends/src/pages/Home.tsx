@@ -43,16 +43,24 @@ export default function Home() {
     loadData();
   }, []);
 
-  // Filter policies based on search query or selected chip
+  // Filter policies based on search query or selected chip (Smarter AI-like matching)
   const filteredPolicies = policies.filter(policy => {
-    const query = (activeChip || searchQuery).toLowerCase();
+    const query = (activeChip || searchQuery).toLowerCase().trim();
     if (!query) return true;
-    return (
-      policy.title.toLowerCase().includes(query) ||
-      policy.country.toLowerCase().includes(query) ||
-      policy.topics.some(t => t.toLowerCase().includes(query)) ||
-      policy.keywords.some(k => k.toLowerCase().includes(query))
-    );
+    
+    // Split query into individual words for broader matching
+    const queryTerms = query.split(/\s+/);
+    
+    // Require all terms to be found somewhere in the policy (AND logic)
+    return queryTerms.every(term => {
+      return (
+        policy.title.toLowerCase().includes(term) ||
+        policy.country.toLowerCase().includes(term) ||
+        policy.summary.toLowerCase().includes(term) ||
+        policy.topics.some(t => t.toLowerCase().includes(term)) ||
+        policy.keywords.some(k => k.toLowerCase().includes(term))
+      );
+    });
   });
 
   const handleChipClick = (chip: string) => {
@@ -243,12 +251,29 @@ export default function Home() {
           <GlassCard hoverEffect={false} glowColor="cyan" className="p-6">
             <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-4">
               <h2 className="text-sm font-semibold text-white flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-brand-accent" /> Search Results for "{searchQuery}"
+                <Search className="h-4 w-4 text-brand-accent" /> Search Results for "{searchQuery}"
               </h2>
               <span className="text-xs bg-white/5 border border-white/15 text-slate-300 px-2 py-0.5 rounded-full">
                 {filteredPolicies.length} matches
               </span>
             </div>
+
+            {/* Sparkle AI Generated Answer */}
+            {filteredPolicies.length > 0 && (
+              <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-brand-primary/20 to-transparent border border-brand-accent/20 flex gap-4 items-start">
+                <div className="mt-0.5 p-1.5 bg-brand-accent/10 rounded-lg">
+                  <Sparkles className="h-4 w-4 text-brand-accent animate-pulse" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white mb-1">Sparkle AI Assistant</h3>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    Based on your query <span className="text-white font-medium">"{searchQuery}"</span>, I found {filteredPolicies.length} relevant regulatory {filteredPolicies.length === 1 ? 'framework' : 'frameworks'}. 
+                    The most notable match is the <strong className="text-white">{filteredPolicies[0].title}</strong> from {filteredPolicies[0].country}. 
+                    This policy is currently {filteredPolicies[0].status.toLowerCase()} and focuses heavily on {filteredPolicies[0].topics.slice(0, 2).join(' and ')}.
+                  </p>
+                </div>
+              </div>
+            )}
             
             {filteredPolicies.length === 0 ? (
               <div className="text-center py-8 text-slate-400 text-sm">
