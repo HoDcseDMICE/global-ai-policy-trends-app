@@ -13,11 +13,19 @@ export default function AdminPanel() {
     try {
       // Attempt to fetch from real API, but gracefully fallback to mock data
       const res = await fetch('/api/backend/users').catch(() => null);
+      
+      let data = null;
       if (res && res.ok) {
-        const data = await res.json();
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          data = await res.json();
+        }
+      }
+
+      if (data && data.users) {
         setUsers(data.users);
       } else {
-        // Mock data for offline support
+        // Mock data for offline support or HTML fallback
         setUsers([
           { username: 'admin', role: 'admin' },
           { username: 'john.doe', role: 'user' },
@@ -41,7 +49,12 @@ export default function AdminPanel() {
 
     try {
       const res = await fetch(`/api/backend/users/${username}`, { method: 'DELETE' }).catch(() => null);
-      if (res && !res.ok) throw new Error('Delete failed');
+      if (res && !res.ok) {
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          throw new Error('Delete failed');
+        }
+      }
       setUsers(users.filter(u => u.username !== username));
     } catch (err: any) {
       alert(err.message);
@@ -56,7 +69,12 @@ export default function AdminPanel() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: newRole })
       }).catch(() => null);
-      if (res && !res.ok) throw new Error('Role update failed');
+      if (res && !res.ok) {
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          throw new Error('Role update failed');
+        }
+      }
       
       // Update local state directly for mocked fallback
       setUsers(users.map(u => u.username === username ? { ...u, role: newRole as any } : u));
