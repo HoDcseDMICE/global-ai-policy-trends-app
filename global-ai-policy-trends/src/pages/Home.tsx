@@ -29,6 +29,41 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeChip, setActiveChip] = useState<string | null>(null);
+  const [isListening, setIsListening] = useState(false);
+
+  const startListening = () => {
+    // @ts-ignore
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Speech recognition is not supported in this browser.');
+      return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+    
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setSearchQuery(transcript);
+      setIsListening(false);
+    };
+    
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error', event.error);
+      setIsListening(false);
+    };
+    
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+    
+    recognition.start();
+  };
 
   const [stats, setStats] = useState<StatItem[]>(statsData);
   const [policies, setPolicies] = useState<PolicyDocument[]>(initialPolicies);
@@ -214,7 +249,12 @@ export default function Home() {
             <div className="flex items-center gap-1.5 pr-1.5">
               <button 
                 type="button"
-                className="p-1.5 text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors hidden sm:block"
+                onClick={startListening}
+                className={`p-1.5 rounded-lg transition-colors hidden sm:block ${
+                  isListening 
+                    ? 'text-brand-accent bg-brand-primary/20 animate-pulse' 
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
                 title="Voice Search"
               >
                 <Mic className="h-4 w-4" />
