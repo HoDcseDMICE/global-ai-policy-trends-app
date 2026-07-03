@@ -20,7 +20,11 @@ import Documentation from './pages/Documentation';
 import About from './pages/About';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
+import UserLogin from './pages/UserLogin';
+import AdminLogin from './pages/AdminLogin';
 import Register from './pages/Register';
+import UserRegister from './pages/UserRegister';
+import AdminRegister from './pages/AdminRegister';
 import AdminPanel from './pages/AdminPanel';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -52,7 +56,11 @@ function AnimatedRoutes() {
       >
         <Routes location={location}>
           <Route path="/login" element={<Login />} />
+          <Route path="/login/user" element={<UserLogin />} />
+          <Route path="/login/admin" element={<AdminLogin />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/register/user" element={<UserRegister />} />
+          <Route path="/register/admin" element={<AdminRegister />} />
           
           {/* Protected Routes */}
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
@@ -62,7 +70,7 @@ function AnimatedRoutes() {
           <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
           <Route path="/forecasting" element={<ProtectedRoute><Forecasting /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/documentation" element={<ProtectedRoute><Documentation /></ProtectedRoute>} />
+          <Route path="/documentation" element={<AdminRoute><Documentation /></AdminRoute>} />
           <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/upload" element={<ProtectedRoute><UploadData /></ProtectedRoute>} />

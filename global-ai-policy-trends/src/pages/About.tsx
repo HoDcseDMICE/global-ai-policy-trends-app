@@ -1,12 +1,19 @@
 import React from 'react';
-import { Globe, Users, BookOpen, GraduationCap, ShieldCheck, Milestone, Cpu } from 'lucide-react';
+import { ShieldCheck, Target, Eye, Cpu, Milestone, Network, Activity, Globe, Database, BarChart, BookOpen, Layers } from 'lucide-react';
 import GlassCard from '../components/GlassCard';
 
 export default function About() {
-  const researchObjectives = [
-    { title: 'Semantic Normalization', desc: 'Translating multilingual regulatory documents (e.g., Chinese, English, French) into unified semantic features.' },
-    { title: 'Linguistic Sentiment Extraction', desc: 'Mapping legislation along safety, restrictive, or innovation dimensions using NLP and transformer weights.' },
-    { title: 'Predictive Stance Modeling', desc: 'Forecasting structural changes, compliance hurdles, and standardization milestones out to 2030.' }
+  const coreCapabilities = [
+    { title: 'AI Policy Intelligence', icon: BookOpen },
+    { title: 'Regulatory Monitoring', icon: Activity },
+    { title: 'AI Governance Analytics', icon: BarChart },
+    { title: 'Sentiment Analysis', icon: Network },
+    { title: 'Compliance Assessment', icon: ShieldCheck },
+    { title: 'Policy Similarity Detection', icon: Layers },
+    { title: 'Trend Forecasting', icon: Milestone },
+    { title: 'Cross-country Benchmarking', icon: Globe },
+    { title: 'Document Intelligence', icon: Database },
+    { title: 'AI-powered Reporting', icon: Cpu }
   ];
 
   return (
@@ -14,16 +21,16 @@ export default function About() {
       {/* Title */}
       <div>
         <h1 className="text-3xl font-display font-bold text-white flex items-center gap-2">
-          <GraduationCap className="h-7 w-7 text-brand-primary" /> About Final Year Project
+           About Polaris AI
         </h1>
         <p className="text-slate-400 text-sm mt-1">
-          Academic and development specifications for the Global AI Policy Trends Framework.
+          Global AI Policy Intelligence Platform.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Column: Academic Credentials (8 cols) */}
+        {/* Left Column: Platform Description (8 cols) */}
         <div className="lg:col-span-8 space-y-6">
           
           {/* Executive Overview */}
@@ -31,29 +38,29 @@ export default function About() {
             <div className="absolute top-0 right-0 w-36 h-36 radial-glow-2 opacity-25 pointer-events-none -z-10" />
             
             <h2 className="text-xl font-display font-bold text-white mb-3 flex items-center gap-2">
-              <Cpu className="h-5 w-5 text-brand-accent" /> Platform Inception
+              <Cpu className="h-5 w-5 text-brand-accent" /> Enterprise Intelligence
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3">
-              This platform represents a comprehensive Final Year Project (FYP) dedicated to solving one of modern tech governance's greatest friction points: mapping, tracking, and translating disparate global artificial intelligence policies. By leveraging state-of-the-art Natural Language Processing (NLP), Large Language Models (Gemini-2.5), and automated forecasting models, the platform serves as a unified SaaS-grade compliance and research interface.
+              Polaris AI is an enterprise-grade Artificial Intelligence Policy Intelligence Platform designed to centralize, analyze, monitor, compare, and forecast global AI regulations across jurisdictions.
+            </p>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3 mt-4">
+              The platform combines Natural Language Processing, Machine Learning, and modern analytics to help governments, enterprises, researchers, and compliance teams understand evolving AI governance worldwide.
             </p>
           </GlassCard>
 
-          {/* Research Objectives */}
+          {/* Core Capabilities */}
           <GlassCard hoverEffect={false} className="p-6 space-y-5">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2 border-b border-white/5 pb-2">
-              <Milestone className="h-5 w-5 text-brand-primary" /> Core Research Objectives
+              <Milestone className="h-5 w-5 text-brand-primary" /> Core Capabilities
             </h2>
 
-            <div className="grid gap-4">
-              {researchObjectives.map((obj, i) => (
-                <div key={i} className="flex gap-4 items-start">
-                  <div className="h-6 w-6 rounded-full bg-brand-primary/10 border border-brand-primary/30 text-brand-accent flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                    0{i + 1}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {coreCapabilities.map((cap, i) => (
+                <div key={i} className="flex gap-3 items-center">
+                  <div className="h-8 w-8 rounded-full bg-brand-primary/10 border border-brand-primary/30 text-brand-accent flex items-center justify-center shrink-0">
+                    <cap.icon className="w-4 h-4" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-white text-sm">{obj.title}</h4>
-                    <p className="text-xs text-slate-400 mt-1 leading-relaxed">{obj.desc}</p>
-                  </div>
+                  <h4 className="font-semibold text-white text-sm">{cap.title}</h4>
                 </div>
               ))}
             </div>
@@ -61,36 +68,24 @@ export default function About() {
 
         </div>
 
-        {/* Right Column: Project details (4 cols) */}
+        {/* Right Column: Mission and Vision (4 cols) */}
         <div className="lg:col-span-4 space-y-6">
-          <GlassCard hoverEffect={false} className="p-5 space-y-4">
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5 border-b border-white/5 pb-3">
-              <Users className="h-4 w-4 text-brand-secondary" /> Project Board
+          <GlassCard hoverEffect={false} className="p-6 space-y-4">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider flex items-center gap-1.5 border-b border-white/5 pb-3">
+              <Target className="h-5 w-5 text-brand-secondary" /> Mission
             </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Empowering organizations with actionable intelligence for responsible AI governance.
+            </p>
+          </GlassCard>
 
-            <div className="space-y-4.5 text-xs text-slate-300">
-              {/* Advisor */}
-              <div>
-                <strong className="text-white block">Project Advisor:</strong>
-                <span className="text-slate-400 block mt-0.5">Prof. Amanda Vance, PhD</span>
-                <span className="text-[10px] text-brand-accent bg-brand-primary/10 px-2 py-0.5 rounded-full border border-brand-primary/20 mt-1 inline-block">
-                  Department of Computer Science
-                </span>
-              </div>
-
-              {/* Candidates */}
-              <div className="border-t border-white/5 pt-3.5">
-                <strong className="text-white block">Lead Researchers:</strong>
-                <span className="text-slate-400 block mt-1">● Sai Pranav (saipranavrk8605@gmail.com)</span>
-                <span className="text-slate-400 block mt-1">● FYP Software Engineering Cohort</span>
-              </div>
-
-              {/* Status */}
-              <div className="border-t border-white/5 pt-3.5 flex items-center justify-between">
-                <span className="font-semibold text-white">Project Grade Stance:</span>
-                <span className="text-emerald-400 font-bold font-mono">Approved (Grade A)</span>
-              </div>
-            </div>
+          <GlassCard hoverEffect={false} className="p-6 space-y-4">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider flex items-center gap-1.5 border-b border-white/5 pb-3">
+              <Eye className="h-5 w-5 text-emerald-400" /> Vision
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              To become the world's leading AI Policy Intelligence Platform.
+            </p>
           </GlassCard>
         </div>
 

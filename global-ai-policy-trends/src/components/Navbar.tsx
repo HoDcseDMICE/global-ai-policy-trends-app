@@ -24,6 +24,7 @@ import {
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([
@@ -35,10 +36,13 @@ export default function Navbar() {
   const location = useLocation();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const profileDropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const toggleProfileDropdown = () => setIsProfileDropdownOpen(!isProfileDropdownOpen);
   const closeDropdowns = () => {
     setIsDropdownOpen(false);
+    setIsProfileDropdownOpen(false);
     setIsMobileMenuOpen(false);
     setIsNotificationsOpen(false);
   };
@@ -48,6 +52,9 @@ export default function Navbar() {
     const handleOutsideClick = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
+      }
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
+        setIsProfileDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleOutsideClick);
@@ -210,16 +217,18 @@ export default function Navbar() {
               Upload Data
             </Link>
 
-            <Link 
-              to="/documentation" 
-              onClick={closeDropdowns}
-              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 ${
-                isActive('/documentation') ? 'text-brand-accent bg-white/5' : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <BookOpen className="h-4 w-4 text-emerald-400" />
-              Documentation
-            </Link>
+            {isAdmin && (
+              <Link 
+                to="/documentation" 
+                onClick={closeDropdowns}
+                className={`px-3 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 ${
+                  isActive('/documentation') ? 'text-brand-accent bg-white/5' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <BookOpen className="h-4 w-4 text-emerald-400" />
+                Documentation
+              </Link>
+            )}
 
             <Link 
               to="/about" 
@@ -301,27 +310,59 @@ export default function Navbar() {
 
             {/* Profile trigger / Login */}
             {isAuthenticated ? (
-              <>
-                <Link 
-                  to="/profile" 
-                  onClick={closeDropdowns}
+              <div className="relative" ref={profileDropdownRef}>
+                <button 
+                  onClick={toggleProfileDropdown}
                   className={`p-1 pl-1.5 pr-3 rounded-full border transition-all flex items-center gap-2 ${
-                    isActive('/profile') ? 'border-brand-accent bg-brand-accent/10 text-white' : 'border-white/10 bg-white/5 hover:border-white/30 text-slate-300'
+                    isActive('/profile') || isProfileDropdownOpen ? 'border-brand-accent bg-brand-accent/10 text-white' : 'border-white/10 bg-white/5 hover:border-white/30 text-slate-300'
                   }`}
                 >
                   <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-brand-primary to-brand-secondary flex items-center justify-center text-white font-bold text-xs ring-1 ring-white/20">
                     {user?.username.charAt(0).toUpperCase()}
                   </div>
                   <span className="text-xs font-medium max-w-[80px] truncate">{user?.username}</span>
-                </Link>
-
-                <button 
-                  onClick={() => { logout(); closeDropdowns(); }}
-                  className="p-2 text-xs font-medium text-slate-400 hover:text-white transition-colors"
-                >
-                  Sign Out
+                  <ChevronDown className={`h-3 w-3 transition-transform ${isProfileDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-              </>
+
+                <AnimatePresence>
+                  {isProfileDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                      className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#0B1121]/95 backdrop-blur-xl border border-white/10 p-2 shadow-2xl z-50 overflow-hidden"
+                    >
+                      <div className="px-3 py-2 border-b border-white/5 mb-1">
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{isAdmin ? 'Admin Menu' : 'User Menu'}</p>
+                      </div>
+                      
+                      {isAdmin ? (
+                        <>
+                          <Link to="/admin" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><ShieldCheck className="h-4 w-4 text-red-400" /> Admin Console</Link>
+                          <Link to="/admin" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><User className="h-4 w-4" /> Users</Link>
+                          <Link to="/admin" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><Activity className="h-4 w-4" /> Monitoring & Logs</Link>
+                          <Link to="/documentation" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><BookOpen className="h-4 w-4" /> Documentation</Link>
+                          <Link to="/profile" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><Settings className="h-4 w-4" /> API Management & Profile</Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link to="/profile" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><User className="h-4 w-4 text-brand-primary" /> My Profile</Link>
+                          <Link to="/upload" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><UploadCloud className="h-4 w-4" /> My Uploads</Link>
+                          <Link to="/reports" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><FileText className="h-4 w-4" /> Saved Reports</Link>
+                          <Link to="/profile" onClick={closeDropdowns} className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"><Settings className="h-4 w-4" /> Settings</Link>
+                        </>
+                      )}
+                      
+                      <div className="pt-1 mt-1 border-t border-white/5">
+                        <button onClick={() => { logout(); closeDropdowns(); }} className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors text-left">
+                          Sign Out
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Link to="/login" className="text-xs font-medium text-slate-300 hover:text-white px-3 py-2 rounded-xl hover:bg-white/5 transition-all">Sign In</Link>
@@ -416,16 +457,18 @@ export default function Navbar() {
                 <span>Upload Data</span>
               </Link>
 
-              <Link
-                to="/documentation"
-                onClick={closeDropdowns}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-base font-medium ${
-                  isActive('/documentation') ? 'text-brand-accent bg-white/5' : 'text-slate-300'
-                }`}
-              >
-                <BookOpen className="h-4 w-4 text-emerald-400" />
-                <span>Documentation</span>
-              </Link>
+              {isAdmin && (
+                <Link
+                  to="/documentation"
+                  onClick={closeDropdowns}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-base font-medium ${
+                    isActive('/documentation') ? 'text-brand-accent bg-white/5' : 'text-slate-300'
+                  }`}
+                >
+                  <BookOpen className="h-4 w-4 text-emerald-400" />
+                  <span>Documentation</span>
+                </Link>
+              )}
 
               <Link
                 to="/about"
