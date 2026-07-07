@@ -545,12 +545,7 @@ export default function Home() {
               >
                 Upload Document Now
               </button>
-              <button 
-                onClick={() => navigate('/documentation')}
-                className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 py-3 rounded-xl font-semibold transition-all"
-              >
-                Read Developer API Docs
-              </button>
+
             </div>
           </div>
         </GlassCard>
