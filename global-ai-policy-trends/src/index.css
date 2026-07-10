@@ -80,6 +80,10 @@
   box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.3);
 }
 
+.glow-emerald {
+  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+}
+
 .text-gradient {
   background: linear-gradient(135deg, #ffffff 10%, #a5f3fc 60%, #3b82f6 100%);
   -webkit-background-clip: text;

@@ -6,7 +6,7 @@ interface GlassCardProps {
   className?: string;
   id?: string;
   hoverEffect?: boolean;
-  glowColor?: 'blue' | 'indigo' | 'cyan' | 'none';
+  glowColor?: 'blue' | 'indigo' | 'cyan' | 'emerald' | 'none';
   onClick?: () => void;
   key?: React.Key;
 }
@@ -23,6 +23,7 @@ export default function GlassCard({
     blue: 'glow-blue hover:border-blue-500/30',
     indigo: 'glow-indigo hover:border-indigo-500/30',
     cyan: 'glow-cyan hover:border-cyan-500/30',
+    emerald: 'glow-emerald hover:border-emerald-500/30',
     none: ''
   };
 
