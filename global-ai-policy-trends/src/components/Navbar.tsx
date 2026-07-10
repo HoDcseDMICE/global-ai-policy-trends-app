@@ -204,7 +204,17 @@ export default function Navbar() {
               }`}
             >
               <TrendingUp className="h-4 w-4 text-brand-accent" />
-              Trends & Forecasting
+            </Link>
+
+            <Link 
+              to="/evaluation" 
+              onClick={closeDropdowns}
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 ${
+                isActive('/evaluation') ? 'text-emerald-400 bg-white/5' : 'text-emerald-400/80 hover:text-emerald-300 hover:bg-white/5'
+              }`}
+            >
+              <ShieldCheck className="h-4 w-4" />
+              Evaluation Metrics
             </Link>
 
             <Link 
@@ -444,7 +454,17 @@ export default function Navbar() {
                 }`}
               >
                 <TrendingUp className="h-4 w-4 text-brand-accent" />
-                <span>Trends & Forecasting</span>
+              </Link>
+
+              <Link
+                to="/evaluation"
+                onClick={closeDropdowns}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-base font-medium ${
+                  isActive('/evaluation') ? 'text-emerald-400 bg-white/5' : 'text-emerald-400/80'
+                }`}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                <span>Evaluation Metrics</span>
               </Link>
 
               <Link

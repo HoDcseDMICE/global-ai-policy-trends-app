@@ -28,6 +28,7 @@ import Register from './pages/Register';
 import UserRegister from './pages/UserRegister';
 import AdminRegister from './pages/AdminRegister';
 import AdminPanel from './pages/AdminPanel';
+import ModelEvaluation from './pages/ModelEvaluation';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -90,11 +91,9 @@ function AnimatedRoutes() {
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/documentation" element={<AdminRoute><Documentation /></AdminRoute>} />
           <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
-          <Route path="/settings" element={<AdminRoute><Settings /></AdminRoute>} />
-          <Route path="/upload" element={<ProtectedRoute><UploadData /></ProtectedRoute>} />
-          
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
+          <Route path="/evaluation" element={<ProtectedRoute><ModelEvaluation /></ProtectedRoute>} />
         </Routes>
       </motion.div>
     </AnimatePresence>

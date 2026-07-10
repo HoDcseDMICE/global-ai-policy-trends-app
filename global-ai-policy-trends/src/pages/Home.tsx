@@ -427,6 +427,92 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ML MODEL COMPARISON / EVALUATION METRICS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="model-evaluation">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-xs text-emerald-400 font-semibold tracking-wider uppercase mb-4">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Trained & Evaluated on Real Dataset</span>
+            </div>
+            <h2 className="text-3xl font-display font-bold text-white tracking-tight">
+              Model Evaluation
+            </h2>
+            <p className="text-slate-400 text-sm sm:text-base mt-2">
+              Performance comparison of XGBoost and Random Forest classifiers trained on 646 policy documents.
+            </p>
+          </div>
+
+          <GlassCard hoverEffect={false} glowColor="cyan" className="p-0 overflow-hidden">
+            {/* Table Header */}
+            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-brand-primary/10 rounded-xl border border-brand-primary/20">
+                  <BarChart3 className="h-5 w-5 text-brand-accent" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">Model Comparison</h3>
+                  <p className="text-xs text-slate-400">Best Model: <span className="text-emerald-400 font-semibold">XGBoost</span> · Last Trained: 2026-07-10</p>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 uppercase tracking-wider">
+                90% Accuracy
+              </span>
+            </div>
+
+            {/* Comparison Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm" id="model-comparison-table">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Metric</th>
+                    <th className="text-center px-6 py-3.5 text-xs font-semibold text-brand-accent uppercase tracking-wider">XGBoost</th>
+                    <th className="text-center px-6 py-3.5 text-xs font-semibold text-purple-400 uppercase tracking-wider">Random Forest</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {[
+                    { metric: 'Accuracy',        xgb: '90.0%',   rf: '90.0%' },
+                    { metric: 'Precision',       xgb: '85.2%',   rf: '86.4%' },
+                    { metric: 'Recall',          xgb: '92.9%',   rf: '91.1%' },
+                    { metric: 'F1 Score',        xgb: '88.9%',   rf: '88.7%' },
+                    { metric: 'ROC-AUC',         xgb: '0.96',    rf: '0.96' },
+                    { metric: 'Cross-Val Score', xgb: '83.5%',   rf: '83.1%' },
+                    { metric: 'Training Time',   xgb: '3.15 s',  rf: '2.90 s' },
+                    { metric: 'Prediction Time', xgb: '0.002 s', rf: '0.008 s' },
+                  ].map((row, i) => (
+                    <tr key={row.metric} className={`transition-colors hover:bg-white/[0.03] ${i % 2 === 0 ? 'bg-white/[0.01]' : ''}`}>
+                      <td className="px-6 py-3 text-slate-300 font-medium">{row.metric}</td>
+                      <td className="px-6 py-3 text-center">
+                        <span className="font-mono font-semibold text-brand-accent">{row.xgb}</span>
+                      </td>
+                      <td className="px-6 py-3 text-center">
+                        <span className="font-mono font-semibold text-purple-400">{row.rf}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Footer Info */}
+            <div className="px-6 py-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
+              <div className="flex items-center gap-4">
+                <span>Training Samples: <strong className="text-white">516</strong></span>
+                <span>Testing Samples: <strong className="text-white">130</strong></span>
+                <span>Features: <strong className="text-white">501</strong></span>
+              </div>
+              <span className="text-slate-500">Dataset: merged_policy_data.csv · Stratified 80/20 Split · random_state=42</span>
+            </div>
+          </GlassCard>
+        </motion.div>
+      </section>
+
       {/* 5. LATEST POLICY INSIGHTS TIMELINE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="latest-insights">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 gap-4">
