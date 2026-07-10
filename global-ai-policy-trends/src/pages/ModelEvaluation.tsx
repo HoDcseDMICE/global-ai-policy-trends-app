@@ -129,8 +129,16 @@ export default function ModelEvaluation() {
                   <span className="text-slate-300 capitalize">{f.feature}</span>
                   <span className="text-brand-accent font-mono">{f.importance}</span>
                 </div>
-                <div className="w-full bg-white/5 rounded-full h-2">
-                  <div className="bg-brand-accent h-2 rounded-full" style={{ width: `${(parseFloat(f.importance) / 0.03) * 100}%` }}></div>
+                <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden group">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${(parseFloat(f.importance) / 0.03) * 100}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: "easeOut", delay: i * 0.1 }}
+                    className="bg-brand-accent h-2 rounded-full relative"
+                  >
+                    <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </motion.div>
                 </div>
               </div>
             ))}
@@ -148,8 +156,16 @@ export default function ModelEvaluation() {
                   <span className="text-slate-300 capitalize">{f.feature}</span>
                   <span className="text-purple-400 font-mono">{f.importance}</span>
                 </div>
-                <div className="w-full bg-white/5 rounded-full h-2">
-                  <div className="bg-purple-400 h-2 rounded-full" style={{ width: `${(parseFloat(f.importance) / 0.06) * 100}%` }}></div>
+                <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden group">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${(parseFloat(f.importance) / 0.06) * 100}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: "easeOut", delay: i * 0.1 }}
+                    className="bg-purple-400 h-2 rounded-full relative"
+                  >
+                    <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </motion.div>
                 </div>
               </div>
             ))}

@@ -62,6 +62,23 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
+  // ML API Status Polling
+  const [apiStatus, setApiStatus] = useState<'online' | 'offline'>('offline');
+  useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        const res = await fetch('/api/backend/health', { signal: AbortSignal.timeout(3000) });
+        if (res.ok) setApiStatus('online');
+        else setApiStatus('offline');
+      } catch (e) {
+        setApiStatus('offline');
+      }
+    };
+    checkStatus();
+    const interval = setInterval(checkStatus, 30000); // Check every 30s
+    return () => clearInterval(interval);
+  }, []);
+
   const hasUnread = notifications.some(n => n.unread);
   const markAllRead = () => {
     setNotifications(notifications.map(n => ({ ...n, unread: false })));
@@ -255,6 +272,20 @@ export default function Navbar() {
           {/* Right Toolbar Controls */}
           <div className="hidden sm:flex items-center space-x-3" id="nav-toolbar">
             
+            {/* API Status Indicator */}
+            <div 
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-white/5 bg-white/5" 
+              title={`ML Backend is ${apiStatus}`}
+            >
+              <div className="relative flex h-2 w-2">
+                {apiStatus === 'online' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>}
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${apiStatus === 'online' ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+              </div>
+              <span className={`text-[10px] font-semibold uppercase tracking-widest ${apiStatus === 'online' ? 'text-emerald-400' : 'text-red-400'}`}>
+                {apiStatus === 'online' ? 'API Online' : 'API Offline'}
+              </span>
+            </div>
+
             {/* Notification bell and drawer */}
             <div className="relative">
               <button 
