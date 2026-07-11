@@ -89,6 +89,7 @@ function AnimatedRoutes() {
           <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
           <Route path="/forecasting" element={<ProtectedRoute><Forecasting /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/upload" element={<ProtectedRoute><UploadData /></ProtectedRoute>} />
           <Route path="/documentation" element={<AdminRoute><Documentation /></AdminRoute>} />
           <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
           {/* Admin Routes */}
